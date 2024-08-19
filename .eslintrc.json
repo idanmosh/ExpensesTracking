@@ -1,0 +1,123 @@
+{
+  "root": true,
+  "ignorePatterns": ["node_modules/*", "android/*", "ios/*"],
+  "env": {
+    "jest": true,
+    "react-native/react-native": true,
+    "node": true
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:jest/recommended",
+    "plugin:react-native/all",
+    "prettier"
+  ],
+  "plugins": ["react", "react-hooks", "@react-native-community", "react-native", "import"],
+  "rules": {
+    // eslint - warn
+    "no-debugger": "warn",
+    "no-constant-binary-expression": "warn",
+    "curly": "warn",
+    "no-constant-condition": "warn",
+    "no-unreachable": "warn",
+    "no-unused-vars": "warn",
+    "no-case-declarations": "warn",
+    "no-fallthrough": "warn",
+    "brace-style": ["warn", "1tbs", { "allowSingleLine": false }],
+
+    // eslint - error
+    //Require the use of === and !==
+    "eqeqeq": "error",
+    //Disallow the use of undeclared variables unless mentioned in /*global */ comments
+    "no-undef": "error",
+    // Disallow the use of console
+    "no-console": [
+      "error",
+      {
+        "allow": ["warn", "error", "info", "time", "timeEnd", "timeLog"]
+      }
+    ],
+
+    //react - off
+    "react/prop-types": "off",
+    "react/display-name": "off",
+    "react/no-unescaped-entities": "off",
+    "react/react-in-jsx-scope": "off",
+
+    // react - warn
+    "react/no-deprecated": "warn",
+    "react/jsx-no-useless-fragment": "warn",
+    "react/jsx-curly-brace-presence": [
+      "warn",
+      { "props": "never", "children": "never", "propElementValues": "always" }
+    ],
+    "react/jsx-filename-extension": [
+      "warn",
+      {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    ],
+
+    // react-hooks - error
+    // Enforces the Rules of Hooks
+    "react-hooks/rules-of-hooks": "error",
+
+    // react-hooks - warn
+    "react-hooks/exhaustive-deps": "warn",
+
+    // react-native - warn
+    "react-native/no-unused-styles": "warn",
+    "react-native/no-inline-styles": "warn",
+
+    // import/order - warn
+    "import/order": [
+      "warn",
+      {
+        "groups": [
+          ["builtin", "external", "internal"],
+          ["parent", "sibling", "index", "unknown"]
+        ],
+        "newlines-between": "always"
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["**/*.ts", "**/*.tsx"],
+      "parser": "@typescript-eslint/parser",
+      "parserOptions": {
+        "project": ["./tsconfig.json"]
+      },
+      "extends": [
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking"
+      ],
+      "plugins": ["@typescript-eslint"],
+      "rules": {
+        // typescript-eslint - off
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+        "@typescript-eslint/interface-name-prefix": "off",
+        "@typescript-eslint/no-unused-vars": "off",
+        "@typescript-eslint/no-use-before-define": "off",
+        "@typescript-eslint/camelcase": "off"
+        //TURN-OFF TS ERRORS:
+        //"ban-ts-comment": "off"
+      }
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+require_relative '../node_modules/react-native/scripts/react_native_pods'
+require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
+
+platform :ios, '15.0'
+prepare_react_native_project!
+use_frameworks!
+
+def pods() 
+  config = use_native_modules!
+
+  use_react_native!(
+    :path => config[:reactNativePath],
+    :hermes_enabled => true,
+    :fabric_enabled => false,
+    :flipper_configuration => FlipperConfiguration.disabled,
+    :app_path => "#{Pod::Config.instance.installation_root}/.."
+  )
+
+  pre_install do |installer|
+    static_framework = ['RNScreens'] 
+    installer.pod_targets.each do |pod|
+      if static_framework.include?(pod.name)
+        def pod.build_type
+          Pod::BuildType.static_library
+        end
+      end
+    end
+  end
+
+  post_install do |installer|
+    react_native_post_install(
+      installer,
+      # Set `mac_catalyst_enabled` to `true` in order to apply patches
+      # necessary for Mac Catalyst builds
+      :mac_catalyst_enabled => false
+    )
+    __apply_Xcode_12_5_M1_post_install_workaround(installer)
+  end
+end
+
+target 'ExpensesTracking' do
+  pods()
+end

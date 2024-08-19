@@ -1,0 +1,1 @@
+export const ANDROID_LINE_HEIGHT_MULTIPLY = 1.2;
