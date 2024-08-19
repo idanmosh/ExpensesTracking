@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import BottomSheetModalContainer from '../components/BottomSheetModalContainer';
 import TextInput from '../components/TextInput';
 import { ms } from 'react-native-size-matters';
 import Button from '../components/Button';
 import { Screen } from '../types/Navigation';
 import { useDispatch, useSelector } from 'react-redux';
-import { addExpense, updateExpense } from '../store/slices/mainSlice';
+import { addExpense, removeExpense, updateExpense } from '../store/slices/mainSlice';
 import { generateRandomId } from '../utils';
 import { RootState } from '../store';
+import colors from '../constants/colors';
 
 export interface ExpenseModalParams {
   title: string;
@@ -45,11 +46,23 @@ const ExpenseModal: Screen<'ExpenseModal'> = ({ navigation: { goBack }, route: {
     goBack();
   };
 
+  const removeExpenseItem = () => {
+    dispatch(removeExpense(params.id as string));
+    goBack();
+  };
+
+  const LeftComponent = (
+    <TouchableOpacity style={styles.deleteButton} onPress={removeExpenseItem}>
+      <Text style={styles.deleteButtonText}>delete</Text>
+    </TouchableOpacity>
+  );
+
   return (
     <BottomSheetModalContainer
       style={styles.bottomSheet}
       title={params.title}
-      onPressClose={goBack}>
+      onPressClose={goBack}
+      LeftComponent={params.action === 'Save' && LeftComponent}>
       <View style={styles.container}>
         <View>
           <TextInput placeholder="Title" value={title} onChangeText={setTitle} />
@@ -92,6 +105,17 @@ const styles = StyleSheet.create({
   },
   separator: {
     height: ms(27)
+  },
+  deleteButton: {
+    paddingTop: ms(12)
+  },
+  deleteButtonText: {
+    fontFamily: 'Helvetica',
+    fontSize: ms(16),
+    lineHeight: ms(16),
+    letterSpacing: 0.15,
+    fontWeight: '400',
+    color: colors.royalBlue
   }
 });
 
